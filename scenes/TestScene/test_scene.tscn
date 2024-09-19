@@ -26,7 +26,7 @@ blend_mode = 1
 [node name="Foyer" parent="Ground" instance=ExtResource("1_bqkyj")]
 
 [node name="Player" parent="." instance=ExtResource("1_sf1uo")]
-position = Vector2(696, 1225)
+position = Vector2(477, 1157)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(730, 330)

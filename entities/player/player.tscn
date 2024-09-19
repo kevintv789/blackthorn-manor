@@ -9,17 +9,21 @@
 size = Vector2(124, 118)
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
 scale = Vector2(0.5, 0.5)
 collision_mask = 15
 script = ExtResource("1_rhx42")
 speed = 450
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, 0)
+position = Vector2(2, -14)
 shape = SubResource("RectangleShape2D_w7rpl")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
+y_sort_enabled = true
 texture = ExtResource("1_3x1j0")
+offset = Vector2(0, -15)
 
 [node name="PlayerLight" type="PointLight2D" parent="PlayerSprite"]
 position = Vector2(3.8147e-06, 3)
@@ -27,12 +31,14 @@ scale = Vector2(1.44531, 1.30078)
 texture = ExtResource("3_4nwyi")
 
 [node name="Flashlight" type="PointLight2D" parent="."]
-position = Vector2(392.933, -3.00001)
-scale = Vector2(0.671806, 0.51)
+scale = Vector2(0.671806, 0.599315)
 color = Color(0.976471, 0.933333, 0.839216, 1)
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 1)
 texture = ExtResource("3_ea1mf")
+offset = Vector2(560, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true

@@ -7,12 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://babxuki8s2lrg" path="res://assets/2D/textures/light_texture.png" id="5_k77ni"]
 
 [node name="Foyer" type="Node2D"]
+y_sort_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -1742.0
-offset_top = -985.0
-offset_right = 7341.0
-offset_bottom = 2976.0
+offset_left = -1675.0
+offset_top = -1082.0
+offset_right = 3272.0
+offset_bottom = 2775.0
 color = Color(0, 0, 0, 1)
 
 [node name="Ground" type="Node2D" parent="."]
@@ -75,6 +76,7 @@ tile_map_data = PackedByteArray("AAAFAAAAAgADAAEAAAAFAAEAAgADAAIAAAAGAAAAAgAEAAE
 tile_set = ExtResource("4_ykkbm")
 
 [node name="Decals" type="Node2D" parent="Ground"]
+y_sort_enabled = true
 
 [node name="BigCouch" type="TileMapLayer" parent="Ground/Decals"]
 scale = Vector2(2, 2)
@@ -102,11 +104,13 @@ tile_map_data = PackedByteArray("AAAIAAIAAQACAA0AAAAHAAwAAQACAA0AAAALAAkAAQADAA0
 tile_set = ExtResource("4_ykkbm")
 
 [node name="TableToppings" type="TileMapLayer" parent="Ground/Decals"]
-z_index = 3
+z_index = 1
 tile_map_data = PackedByteArray("AAAUAAMAAgAHAAMAAAAUAAQAAgAHAAQAAAAHAAMAAgAHAAMAAAAHAAQAAgAHAAQAAAABABYAAgAIAAQAAAABABUAAgAJAAQAAAACAAcAAgAIAAUAAGABAAkAAgAKAAMAAAABAAgAAgALAAMAAAABAAYAAgAJAAQAAAA=")
 tile_set = ExtResource("4_ykkbm")
 
 [node name="Chandelier" type="TileMapLayer" parent="Ground/Decals"]
+z_index = 2
+y_sort_enabled = true
 position = Vector2(49, 0)
 scale = Vector2(2, 1.5)
 tile_map_data = PackedByteArray("AAAFAA4AAgANAAoAAAAFAA8AAgANAAsAAAAGAA0AAgAOAAkAAAAGAA4AAgAOAAoAAAAGAA8AAgAOAAsAAAAHAA4AAgAPAAoAAAAHAA8AAgAPAAsAAAAFABAAAgANAAwAAAAGABAAAgAOAAwAAAAHABAAAgAPAAwAAAA=")
@@ -148,14 +152,19 @@ tile_map_data = PackedByteArray("AAACAAMAAgABAAAAAAA=")
 tile_set = ExtResource("4_ykkbm")
 
 [node name="Tables" type="TileMapLayer" parent="Ground/Decals"]
+y_sort_enabled = true
 position = Vector2(-48, 9)
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAABAAoAAgAGAAMAAAABAAsAAgAGAAQAAAABAAQAAgADAAkAAAABAAMAAgADAAgAAAA=")
 tile_set = ExtResource("4_ykkbm")
 
 [node name="GroundFloor" type="Node2D" parent="Ground/Decals"]
+z_index = 1
+y_sort_enabled = true
 
 [node name="Plants" type="TileMapLayer" parent="Ground/Decals/GroundFloor"]
+z_index = 1
+y_sort_enabled = true
 position = Vector2(42, 42)
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAAIAP//AgACAAoAAAAIAAAAAgACAAsAAAALAAsAAgANAAQAAAALAAwAAgANAAUAAAABAAsAAgANAAQAAAABAAwAAgANAAUAAAA=")
