@@ -3,38 +3,12 @@ extends CharacterBody2D
 @export var speed: int = 200
 @export var rotation_speed: int = 25
 
-@onready var player_sprite: Sprite2D = $PlayerSprite
-@onready var player_light: Light2D = $PlayerSprite/PlayerLight
+@onready var player_sprite: Sprite2D = $SmoothNode/PlayerSprite
+@onready var player_light: Light2D = $SmoothNode/PlayerSprite/PlayerLight
 @onready var flashlight: PointLight2D = $Flashlight
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-
-# Define animation states
-enum PlayerState {
-	IDLE,
-	WALK_UP,
-	WALK_DOWN,
-	WALK_LEFT,
-	WALK_RIGHT
-}
-
-const PlayerStateString = {
-	PlayerState.IDLE: "idle",
-	PlayerState.WALK_UP: "walk_up",
-	PlayerState.WALK_DOWN: "walk_down",
-	PlayerState.WALK_LEFT: "walk_left",
-	PlayerState.WALK_RIGHT: "walk_right"
-}
-
-const PlayerIdleFrame = {
-	PlayerState.IDLE: 1,
-	PlayerState.WALK_UP: 19,
-	PlayerState.WALK_DOWN: 1,
-	PlayerState.WALK_LEFT: 7,
-	PlayerState.WALK_RIGHT: 13
-}
-
-var current_state: PlayerState = PlayerState.IDLE
-var last_state: PlayerState = PlayerState.IDLE
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var animation_state = animation_tree.get("parameters/playback")
 
 var original_flashlight_offset: Vector2 = Vector2.ZERO
 
@@ -42,7 +16,6 @@ func _ready() -> void:
 	# Set flashlight to not visible
 	initialize_player_light()
 	original_flashlight_offset = flashlight.offset
-	player_sprite.frame = 1
 
 func _physics_process(_delta: float) -> void:
 	define_input_map()
@@ -63,32 +36,13 @@ func _input(event: InputEvent) -> void:
 func define_input_map() -> void:
 	var input_direction = Input.get_vector(InputManager.MOVE_LEFT, InputManager.MOVE_RIGHT, InputManager.MOVE_UP, InputManager.MOVE_DOWN)
 	velocity = input_direction * speed
-	update_player_state(input_direction)
-	play_player_animation()
 
-func update_player_state(input_direction: Vector2) -> void:
-	if input_direction == Vector2.RIGHT:
-		current_state = PlayerState.WALK_RIGHT
-	elif input_direction == Vector2.LEFT:
-		current_state = PlayerState.WALK_LEFT
-	elif input_direction == Vector2.UP:
-		current_state = PlayerState.WALK_UP
-	elif input_direction == Vector2.DOWN:
-		current_state = PlayerState.WALK_DOWN
+	if input_direction != Vector2.ZERO:
+		animation_tree.set("parameters/Idle/blend_position", input_direction)
+		animation_tree.set("parameters/Walking/blend_position", input_direction)
+		animation_state.travel("Walking")
 	else:
-		current_state = PlayerState.IDLE
-
-func play_player_animation() -> void:
-	if (current_state != PlayerState.IDLE):
-		animation_player.play(PlayerStateString[current_state])
-
-		 # Sets last state right before the player stops moving
-		 # so we can use it to determine the idle frame of the direction the player is facing
-		last_state = current_state
-	else:
-		animation_player.stop()
-		var last_state_frame = PlayerIdleFrame[last_state]
-		player_sprite.frame = last_state_frame
+		animation_state.travel("Idle")
 		
 func toggle_flashlight(event: InputEvent) -> void:
 	if event.is_action_pressed(InputManager.FLASHLIGHT_TOGGLE):
