@@ -11,15 +11,16 @@ extends CharacterBody2D
 @onready var animation_state = animation_tree.get("parameters/playback")
 
 var original_flashlight_offset: Vector2 = Vector2.ZERO
-
+var current_input_direction = Vector2.RIGHT
+	
 func _ready() -> void:
 	# Set flashlight to not visible
 	initialize_player_light()
 	original_flashlight_offset = flashlight.offset
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	define_input_map()
-	light_follow_mouse()
+	light_follow_mouse(delta)
 	move_and_slide()
 
 	if flashlight.visible:
@@ -38,8 +39,6 @@ func define_input_map() -> void:
 	velocity = input_direction * speed
 
 	if input_direction != Vector2.ZERO:
-		animation_tree.set("parameters/Idle/blend_position", input_direction)
-		animation_tree.set("parameters/Walking/blend_position", input_direction)
 		animation_state.travel("Walking")
 	else:
 		animation_state.travel("Idle")
@@ -50,44 +49,50 @@ func toggle_flashlight(event: InputEvent) -> void:
 		player_light.energy = 1.0 if flashlight.visible else 0.5
 		player_light.texture_scale = 1.0 if flashlight.visible else 0.3
 		
-func light_follow_mouse() -> void:
+func light_follow_mouse(delta: float) -> void:
 	var mouse_position = get_global_mouse_position()
-
+	
 	# Calculate the angle between the player and the mouse
 	var angle_to_mouse = global_position.direction_to(mouse_position).angle()
 
-	# Rotate the player towards the mouse using lerp_angle
-	# lerp_angle is used to smoothly rotate the player towards the mouse
-	# rotation = lerp_angle(rotation, angle_to_mouse, rotation_speed * get_physics_process_delta_time())
+	# Snap to 8 directions (45-degree increments)
+	var snapped_angle = round(angle_to_mouse / (PI/4)) * (PI/4)
 
-# This function updates the flashlight sized based on the player's rotation
+	# Smoothly interpolate the rotation, but slower
+	rotation = lerp_angle(rotation, snapped_angle, 5 * delta)
+	
+	# Update input direction for animations
+	current_input_direction = Vector2.RIGHT.rotated(snapped_angle)
+
+	# Update animation blend position
+	animation_tree.set("parameters/Idle/blend_position", current_input_direction)
+	animation_tree.set("parameters/Walking/blend_position", current_input_direction)
+
+	# Set sprite rotation directly opposite to the player rotation
+	player_sprite.rotation = -rotation
+
+# This function updates the flashlight sizing based on the player's rotation
 # If the player is looking up or down, the flashlight's length should be reduced, but the width should be increased
 func update_flashlight_size() -> void:
 	var angle = rotation
+	var min_length_scale = 0.3
+	var max_length_scale = 0.5
+	var min_width_scale = 0.4
+	var max_width_scale = 0.5
 
-	# Normalize the angle
-	angle = fmod(angle, TAU)
-	if angle < 0:
-		angle += TAU
-	
+	# Get the cosine of the angle to determine the length scale
+	# Cosine is 1 when the angle is 0 (horizontal) and 0 when the angle is 90 or 270 (vertical)
+	var cos_angle = abs(cos(angle)) 
 
-	# Calculate the length and width of the flashlight based on the angle
-	var min_scale = 0.5
+	# Calculate length scale (shorter when vertical, longer when horizontal)
+	var length_scale = lerp(min_length_scale, max_length_scale, cos_angle)
 
-	# Cos(angle) will be between -1 and 1
-	# If user is facing horizontally (0 to 180 degrees), the length would be 1
-	# If user is facing vertically (90 to 270 degrees), the length would be 0 (or min_scale)
-	var length_scale = max(min_scale, abs(cos(angle)))
+	# Calculate width scale (wider when vertical, narrower when horizontal)
+	var width_scale = lerp(min_width_scale, max_width_scale, 1.0 - length_scale)
 
-	var max_width_scale = 1.3 # Maximum width scale when vertical
-	var width_scale = lerp(1.0, max_width_scale, 1.0 - length_scale)
+	# Apply the new scale
+	flashlight.scale = Vector2(length_scale, width_scale)
 
-	flashlight.scale.x = length_scale
-	flashlight.scale.y = width_scale
-
-	# Use lerp to smoothly transition from 1 to 0.9 
-	# lerp formula: result = start + (end - start) * weight
-	# for our case, result = 1.0 + (0.9 - 1.0) * length_scale (which is between 0.5 and 1)
-	# when length_scale is 0.5, offset_scale will be 0.95
+	# Update offset if needed
 	var offset_scale = lerp(1.0, 0.9, length_scale)
 	flashlight.offset = original_flashlight_offset * offset_scale

@@ -427,7 +427,8 @@ rotation = 3.14159
 shape = SubResource("CapsuleShape2D_078a2")
 
 [node name="Flashlight" type="PointLight2D" parent="."]
-scale = Vector2(0.671806, 0.599315)
+position = Vector2(0, 0.909091)
+scale = Vector2(0.316599, 0.155666)
 color = Color(0.976471, 0.933333, 0.839216, 1)
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 1)
@@ -451,8 +452,8 @@ vframes = 5
 frame = 13
 
 [node name="PlayerLight" type="PointLight2D" parent="SmoothNode/PlayerSprite"]
-position = Vector2(374.545, -24.5455)
-scale = Vector2(1.44531, 1.30078)
+position = Vector2(3.8147e-06, -10.9091)
+scale = Vector2(0.721768, 0.649592)
 texture = ExtResource("3_4nwyi")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
