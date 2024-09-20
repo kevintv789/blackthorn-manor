@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://vonphafr111f"]
+
+[ext_resource type="Texture2D" uid="uid://dv1hvsocgwy3o" path="res://assets/2D/sprites/key/silver_key/Key 15 - SILVER - frame0000.png" id="1_g0vej"]
+
+[node name="SilverKey" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 3
+y_sort_enabled = true
+texture = ExtResource("1_g0vej")

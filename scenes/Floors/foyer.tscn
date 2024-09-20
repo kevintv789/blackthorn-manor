@@ -1,19 +1,21 @@
-[gd_scene load_steps=6 format=4 uid="uid://bprx1dkhq8k4h"]
+[gd_scene load_steps=8 format=4 uid="uid://bprx1dkhq8k4h"]
 
 [ext_resource type="TileSet" uid="uid://c06kbodev43xe" path="res://assets/2D/tilesets/floors_48.tres" id="1_t8ktb"]
 [ext_resource type="TileSet" uid="uid://c3fhxbq7ia4ks" path="res://assets/2D/tilesets/walls_48.tres" id="2_vegtk"]
 [ext_resource type="TileSet" uid="uid://d4dujurjxs0dk" path="res://assets/2D/tilesets/stairs_48.tres" id="3_wpax6"]
 [ext_resource type="TileSet" uid="uid://d3l1lcm0fpa0c" path="res://assets/2D/tilesets/decals_48.tres" id="4_ykkbm"]
 [ext_resource type="Texture2D" uid="uid://babxuki8s2lrg" path="res://assets/2D/textures/light_texture.png" id="5_k77ni"]
+[ext_resource type="PackedScene" uid="uid://b8k8suwychfai" path="res://scenes/Objects/animated_male_painting.tscn" id="6_ebxqp"]
+[ext_resource type="PackedScene" uid="uid://vonphafr111f" path="res://scenes/Objects/silver_key.tscn" id="7_jdfmf"]
 
 [node name="Foyer" type="Node2D"]
 y_sort_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -1675.0
-offset_top = -1082.0
-offset_right = 3272.0
-offset_bottom = 2775.0
+offset_left = -1646.0
+offset_top = -987.0
+offset_right = 3301.0
+offset_bottom = 2870.0
 color = Color(0, 0, 0, 1)
 
 [node name="Ground" type="Node2D" parent="."]
@@ -84,7 +86,6 @@ tile_map_data = PackedByteArray("AAAFAAIAAgAHAAoAAAAFAAMAAgAHAAsAAAAIAAIAAgAGAAo
 tile_set = ExtResource("4_ykkbm")
 
 [node name="Paintings" type="TileMapLayer" parent="Ground/Decals"]
-tile_map_data = PackedByteArray("AAANAA8ABAAAAAAAAAANABAABAAAAAEAAAAOAA8ABAABAAAAAAAOABAABAABAAEAAAA=")
 tile_set = ExtResource("4_ykkbm")
 
 [node name="WallDecals" type="TileMapLayer" parent="Ground/Decals"]
@@ -169,3 +170,10 @@ position = Vector2(42, 42)
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAAIAP//AgACAAoAAAAIAAAAAgACAAsAAAALAAsAAgANAAQAAAALAAwAAgANAAUAAAABAAsAAgANAAQAAAABAAwAAgANAAUAAAA=")
 tile_set = ExtResource("4_ykkbm")
+
+[node name="AnimatedMalePainting" parent="Ground/Decals" instance=ExtResource("6_ebxqp")]
+position = Vector2(676, 788)
+
+[node name="SilverKey" parent="." instance=ExtResource("7_jdfmf")]
+position = Vector2(107, 418)
+skew = 0.165806
