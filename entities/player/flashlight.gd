@@ -2,9 +2,16 @@ extends PointLight2D
 
 @onready var player_light: Light2D = $"../PlayerLight"
 
+var audio_player: AudioStreamPlayer = null
+
+const FLASHLIGHT_CLICK_ON_SOUND_PATH: String = "res://assets/audio/flashlight/flashlight_click_on.wav"
+const FLASHLIGHT_CLICK_OFF_SOUND_PATH: String = "res://assets/audio/flashlight/flashlight_click_off.wav"
+const AUDIO_VOLUME_DB: float = -5
+
 func _ready() -> void:
 	visible = false
 	initialize_player_light()
+	initialize_audio_player()
 
 func _process(_delta: float) -> void:
 	var mouse_position = get_global_mouse_position()
@@ -17,6 +24,7 @@ func _input(event: InputEvent) -> void:
 		visible = !visible
 		player_light.energy = 1.2 if visible else 0.5
 		player_light.texture_scale = 1.2 if visible else 0.3
+		play_sound(FLASHLIGHT_CLICK_ON_SOUND_PATH if visible else FLASHLIGHT_CLICK_OFF_SOUND_PATH)
 
 func initialize_player_light() -> void:
 	player_light.energy = 0.5
@@ -43,3 +51,12 @@ func update_flashlight_size() -> void:
 
 	# Apply the new scale
 	scale = Vector2(length_scale, width_scale)
+
+func initialize_audio_player() -> void:
+	audio_player = AudioStreamPlayer.new()
+	add_child(audio_player)
+	audio_player.volume_db = AUDIO_VOLUME_DB
+
+func play_sound(sound_path: String) -> void:
+	audio_player.stream = load(sound_path)
+	audio_player.play()

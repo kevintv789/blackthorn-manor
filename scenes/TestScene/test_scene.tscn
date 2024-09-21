@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bddpadls4im8t"]
+[gd_scene load_steps=5 format=3 uid="uid://bddpadls4im8t"]
 
 [ext_resource type="PackedScene" uid="uid://bprx1dkhq8k4h" path="res://scenes/Floors/foyer.tscn" id="1_bqkyj"]
 [ext_resource type="PackedScene" uid="uid://d1v02tyt4dj2i" path="res://entities/player/player.tscn" id="1_sf1uo"]
 [ext_resource type="PackedScene" uid="uid://ds62ju61k7o2n" path="res://scenes/Enemies/monster.tscn" id="3_yulme"]
+[ext_resource type="PackedScene" uid="uid://buxt4eao7boxn" path="res://globals/background_music.tscn" id="4_uon5j"]
 
 [node name="TestScene" type="Node2D"]
 
@@ -27,3 +28,5 @@ position = Vector2(477, 1157)
 
 [node name="Monster" parent="." instance=ExtResource("3_yulme")]
 position = Vector2(455, 519)
+
+[node name="BackgroundMusic" parent="." instance=ExtResource("4_uon5j")]
