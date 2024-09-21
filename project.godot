@@ -28,6 +28,11 @@ window/size/viewport_height=1080
 
 enabled=PackedStringArray("res://addons/smoothing/plugin.cfg")
 
+[global_group]
+
+Player=""
+Terrain=""
+
 [input]
 
 move_up={

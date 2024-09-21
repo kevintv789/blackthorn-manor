@@ -448,7 +448,7 @@ position = Vector2(3.8147e-06, -10.9091)
 scale = Vector2(0.721768, 0.649592)
 texture = ExtResource("3_4nwyi")
 
-[node name="Flashlight" type="PointLight2D" parent="SmoothNode/PlayerSprite"]
+[node name="Flashlight" type="PointLight2D" parent="SmoothNode/PlayerSprite" groups=["Player"]]
 position = Vector2(0, 0.909091)
 scale = Vector2(0.316599, 0.155666)
 color = Color(0.976471, 0.933333, 0.839216, 1)

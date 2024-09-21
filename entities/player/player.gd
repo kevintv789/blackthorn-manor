@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Player
+
 @export var speed: int = 200
 @export var rotation_speed: int = 25
 
@@ -45,3 +47,6 @@ func light_follow_mouse(delta: float) -> void:
 
 	# Set sprite rotation directly opposite to the player rotation
 	player_sprite.rotation = -rotation
+
+func is_moving() -> bool:
+	return velocity != Vector2.ZERO
