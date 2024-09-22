@@ -18,6 +18,7 @@ config/icon="res://assets/2D/sprites/icon.svg"
 [autoload]
 
 InputManager="*res://globals/input_manager.gd"
+ItemManager="*res://globals/item_manager.gd"
 
 [display]
 

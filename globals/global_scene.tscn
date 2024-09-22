@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://2ycsgvdap2wv"]
+[gd_scene load_steps=5 format=3 uid="uid://2ycsgvdap2wv"]
 
 [ext_resource type="PackedScene" uid="uid://buxt4eao7boxn" path="res://globals/background_music.tscn" id="1_e18la"]
 [ext_resource type="Texture2D" uid="uid://ombra78m3yom" path="res://assets/UI/empty_panel_brass.png" id="2_0yqe6"]
+[ext_resource type="Script" path="res://globals/ui.gd" id="2_rpd2k"]
+[ext_resource type="Script" path="res://globals/terrain_manager.gd" id="3_eawl5"]
 
 [node name="GlobalScene" type="Node2D"]
 
@@ -26,6 +28,7 @@ blend_mode = 1
 [node name="Monster" type="Node2D" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("2_rpd2k")
 
 [node name="Control" type="Control" parent="UI"]
 layout_mode = 3
@@ -46,3 +49,10 @@ offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_0yqe6")
+
+[node name="Item" type="Sprite2D" parent="UI/Control/TextureRect"]
+position = Vector2(33.6, 37.56)
+scale = Vector2(0.906667, 0.827586)
+
+[node name="TerrainManager" type="Node" parent="."]
+script = ExtResource("3_eawl5")

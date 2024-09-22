@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://bprx1dkhq8k4h"]
+[gd_scene load_steps=8 format=4 uid="uid://bprx1dkhq8k4h"]
 
 [ext_resource type="TileSet" uid="uid://c06kbodev43xe" path="res://assets/2D/tilesets/floors_48.tres" id="1_t8ktb"]
 [ext_resource type="TileSet" uid="uid://c3fhxbq7ia4ks" path="res://assets/2D/tilesets/walls_48.tres" id="2_vegtk"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://babxuki8s2lrg" path="res://assets/2D/textures/light_texture.png" id="5_k77ni"]
 [ext_resource type="PackedScene" uid="uid://b8k8suwychfai" path="res://scenes/Objects/animated_male_painting.tscn" id="6_ebxqp"]
 [ext_resource type="PackedScene" uid="uid://vonphafr111f" path="res://scenes/Objects/silver_key.tscn" id="7_jdfmf"]
-[ext_resource type="Script" path="res://globals/terrain_manager.gd" id="8_u5daj"]
 
 [node name="Foyer" type="Node2D"]
 y_sort_enabled = true
@@ -181,6 +180,3 @@ position = Vector2(676, 788)
 [node name="SilverKey" parent="." instance=ExtResource("7_jdfmf")]
 position = Vector2(107, 418)
 skew = 0.165806
-
-[node name="TerrainManager" type="Node" parent="."]
-script = ExtResource("8_u5daj")

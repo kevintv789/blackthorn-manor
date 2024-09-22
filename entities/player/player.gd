@@ -72,8 +72,8 @@ func light_follow_mouse(delta: float) -> void:
 func is_moving() -> bool:
 	return velocity != Vector2.ZERO
 
-func key_in_range(body: Node2D) -> void:
+func key_in_range() -> void:
 	prompt_button.visible = true
 
-func key_out_of_range(body: Node2D) -> void:
+func key_out_of_range() -> void:
 	prompt_button.visible = false
