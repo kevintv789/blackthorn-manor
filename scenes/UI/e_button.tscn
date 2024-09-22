@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://5phnmsqh33jh"]
+
+[ext_resource type="Texture2D" uid="uid://b1j7derh4nplh" path="res://assets/UI/Keyboard-and-Mouse.png" id="1_k3yax"]
+
+[sub_resource type="Animation" id="Animation_etbl5"]
+resource_name = "prompt"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EButtonPrompt:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 20]
+}
+
+[sub_resource type="Animation" id="Animation_tkttt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EButtonPrompt:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fneia"]
+_data = {
+"RESET": SubResource("Animation_tkttt"),
+"prompt": SubResource("Animation_etbl5")
+}
+
+[node name="EButton" type="Node2D"]
+
+[node name="EButtonPrompt" type="Sprite2D" parent="."]
+texture = ExtResource("1_k3yax")
+hframes = 16
+vframes = 24
+frame = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fneia")
+}
+autoplay = "prompt"

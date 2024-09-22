@@ -32,6 +32,7 @@ enabled=PackedStringArray("res://addons/smoothing/plugin.cfg")
 
 Player=""
 Terrain=""
+Items=""
 
 [input]
 

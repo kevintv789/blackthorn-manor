@@ -9,13 +9,34 @@ class_name Player
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_state = animation_tree.get("parameters/playback")
+@onready var prompt_button_scene: PackedScene = preload("res://scenes/UI/e_button.tscn")
+
+var prompt_button: Node2D
 
 var current_input_direction = Vector2.RIGHT
+
+func _ready() -> void:
+	prompt_button = prompt_button_scene.instantiate()
+	add_child(prompt_button)
+	prompt_button.visible = false
+	prompt_button.scale = Vector2(1.5, 1.5)
+
+	var items = get_tree().get_nodes_in_group("Items") as Array[Node2D]
+	for item in items:
+		if item.has_signal("in_range"):
+			item.connect("in_range", key_in_range)
+		if item.has_signal("out_of_range"):
+			item.connect("out_of_range", key_out_of_range)
 	
 func _physics_process(delta: float) -> void:
 	define_input_map()
 	light_follow_mouse(delta)
 	move_and_slide()
+	
+	# Move the button to the position of the player
+	if prompt_button:
+		prompt_button.global_position = global_position + Vector2(0, -50)
+		prompt_button.rotation = -rotation
 
 func define_input_map() -> void:
 	var input_direction = Input.get_vector(InputManager.MOVE_LEFT, InputManager.MOVE_RIGHT, InputManager.MOVE_UP, InputManager.MOVE_DOWN)
@@ -50,3 +71,9 @@ func light_follow_mouse(delta: float) -> void:
 
 func is_moving() -> bool:
 	return velocity != Vector2.ZERO
+
+func key_in_range(body: Node2D) -> void:
+	prompt_button.visible = true
+
+func key_out_of_range(body: Node2D) -> void:
+	prompt_button.visible = false

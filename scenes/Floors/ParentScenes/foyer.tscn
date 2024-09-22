@@ -7,7 +7,7 @@
 
 [node name="Foyer" instance=ExtResource("1_fv1tu")]
 
-[node name="Player" parent="Player" index="0" groups=["Player"] instance=ExtResource("2_ogkta")]
+[node name="Player" parent="Player" index="0" instance=ExtResource("2_ogkta")]
 position = Vector2(528, 986)
 
 [node name="Foyer" parent="Ground" index="0" instance=ExtResource("2_qqwmq")]
