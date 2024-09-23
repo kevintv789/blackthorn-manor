@@ -1,82 +1,79 @@
 extends CharacterBody2D
 
-@export var speed: int = 400
+class_name Player
+
+@export var speed: int = 200
 @export var rotation_speed: int = 25
 
-@onready var player_light: Light2D = $PlayerSprite/PlayerLight
-@onready var flashlight: PointLight2D = $Flashlight
+@onready var player_sprite: Sprite2D = $SmoothNode/PlayerSprite
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var animation_state = animation_tree.get("parameters/playback")
+@onready var prompt_button_scene: PackedScene = preload("res://scenes/UI/e_button.tscn")
 
-var original_flashlight_offset: Vector2 = Vector2.ZERO
+var prompt_button: Node2D
+
+var current_input_direction = Vector2.RIGHT
 
 func _ready() -> void:
-	# Set flashlight to not visible
-	initialize_player_light()
-	original_flashlight_offset = flashlight.offset
+	prompt_button = prompt_button_scene.instantiate()
+	add_child(prompt_button)
+	prompt_button.visible = false
+	prompt_button.scale = Vector2(1.5, 1.5)
 
-func _physics_process(_delta: float) -> void:
+	var items = get_tree().get_nodes_in_group("Items") as Array[Node2D]
+	for item in items:
+		if item.has_signal("in_range"):
+			item.connect("in_range", key_in_range)
+		if item.has_signal("out_of_range"):
+			item.connect("out_of_range", key_out_of_range)
+	
+func _physics_process(delta: float) -> void:
 	define_input_map()
-	light_follow_mouse()
+	light_follow_mouse(delta)
 	move_and_slide()
-
-	if flashlight.visible:
-		update_flashlight_size()
-
-func initialize_player_light() -> void:
-	flashlight.visible = false
-	player_light.energy = 0.1
-	player_light.texture_scale = 0.3
-
-func _input(event: InputEvent) -> void:
-	toggle_flashlight(event)
+	
+	# Move the button to the position of the player
+	if prompt_button:
+		prompt_button.global_position = global_position + Vector2(0, -50)
+		prompt_button.rotation = -rotation
 
 func define_input_map() -> void:
 	var input_direction = Input.get_vector(InputManager.MOVE_LEFT, InputManager.MOVE_RIGHT, InputManager.MOVE_UP, InputManager.MOVE_DOWN)
 	velocity = input_direction * speed
 
-func toggle_flashlight(event: InputEvent) -> void:
-	if event.is_action_pressed(InputManager.FLASHLIGHT_TOGGLE):
-		flashlight.visible = !flashlight.visible
-		player_light.energy = 1.0 if flashlight.visible else 0.5
-		player_light.texture_scale = 1.0 if flashlight.visible else 0.3
+	if input_direction != Vector2.ZERO:
+		animation_state.travel("Walking")
+	else:
+		animation_state.travel("Idle")
 		
-func light_follow_mouse() -> void:
+func light_follow_mouse(delta: float) -> void:
 	var mouse_position = get_global_mouse_position()
-
+	
 	# Calculate the angle between the player and the mouse
 	var angle_to_mouse = global_position.direction_to(mouse_position).angle()
 
-	# Rotate the player towards the mouse using lerp_angle
-	# lerp_angle is used to smoothly rotate the player towards the mouse
-	rotation = lerp_angle(rotation, angle_to_mouse, rotation_speed * get_physics_process_delta_time())
+	# Snap to 8 directions (45-degree increments)
+	var snapped_angle = round(angle_to_mouse / (PI/4)) * (PI/4)
 
-# This function updates the flashlight sized based on the player's rotation
-# If the player is looking up or down, the flashlight's length should be reduced, but the width should be increased
-func update_flashlight_size() -> void:
-	var angle = rotation
-
-	# Normalize the angle
-	angle = fmod(angle, TAU)  
-	if angle < 0:
-		angle += TAU
+	# Smoothly interpolate the rotation, but slower
+	rotation = lerp_angle(rotation, snapped_angle, 5 * delta)
 	
+	# Update input direction for animations
+	current_input_direction = Vector2.RIGHT.rotated(snapped_angle)
 
-	# Calculate the length and width of the flashlight based on the angle
-	var min_scale = 0.5 
+	# Update animation blend position
+	animation_tree.set("parameters/Idle/blend_position", current_input_direction)
+	animation_tree.set("parameters/Walking/blend_position", current_input_direction)
 
-	# Cos(angle) will be between -1 and 1
-	# If user is facing horizontally (0 to 180 degrees), the length would be 1
-	# If user is facing vertically (90 to 270 degrees), the length would be 0 (or min_scale)
-	var length_scale = max(min_scale, abs(cos(angle)))
+	# Set sprite rotation directly opposite to the player rotation
+	player_sprite.rotation = -rotation
 
-	var max_width_scale = 1.3  # Maximum width scale when vertical
-	var width_scale = lerp(1.0, max_width_scale, 1.0 - length_scale)
+func is_moving() -> bool:
+	return velocity != Vector2.ZERO
 
-	flashlight.scale.x = length_scale
-	flashlight.scale.y = width_scale
+func key_in_range() -> void:
+	prompt_button.visible = true
 
-	# Use lerp to smoothly transition from 1 to 0.9 
-	# lerp formula: result = start + (end - start) * weight
-	# for our case, result = 1.0 + (0.9 - 1.0) * length_scale (which is between 0.5 and 1)
-	# when length_scale is 0.5, offset_scale will be 0.95
-	var offset_scale = lerp(1.0, 0.9, length_scale)
-	flashlight.offset = original_flashlight_offset * offset_scale
+func key_out_of_range() -> void:
+	prompt_button.visible = false
