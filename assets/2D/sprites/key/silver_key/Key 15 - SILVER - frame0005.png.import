@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dciv3sl7f66cq"
-path="res://.godot/imported/Key 15 - SILVER - frame0000.png-11803bbacbb5fed95aafd62b4c9af7cf.ctex"
+uid="uid://bmwu6od0ekeoa"
+path="res://.godot/imported/Key 15 - SILVER - frame0005.png-ecff678abc37d4eed125464d439f47b4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2D/sprites/key/silver_key/Key 15 - SILVER - frame0000.png"
-dest_files=["res://.godot/imported/Key 15 - SILVER - frame0000.png-11803bbacbb5fed95aafd62b4c9af7cf.ctex"]
+source_file="res://assets/2D/sprites/key/silver_key/Key 15 - SILVER - frame0005.png"
+dest_files=["res://.godot/imported/Key 15 - SILVER - frame0005.png-ecff678abc37d4eed125464d439f47b4.ctex"]
 
 [params]
 

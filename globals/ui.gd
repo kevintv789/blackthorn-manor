@@ -9,7 +9,7 @@ func _ready() -> void:
 			item.connect("picked_up", _on_item_picked_up)
 
 func _on_item_picked_up(item: Node2D) -> void:
-	var sprite = item.get_node_or_null("Sprite2D")
+	var sprite = item.get_node_or_null("SilverKey")
 	
 	if sprite:
 		itemRect.texture = sprite.texture
