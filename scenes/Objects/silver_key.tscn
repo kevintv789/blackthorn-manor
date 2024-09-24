@@ -234,7 +234,7 @@ texture = SubResource("CompressedTexture2D_5tqbq")
 [node name="AnimatedKey" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0bp8n")
 autoplay = "default"
-frame_progress = 0.85892
+frame_progress = 0.849772
 
 [node name="AnimatedKeyOutline" type="AnimatedSprite2D" parent="."]
 visible = false

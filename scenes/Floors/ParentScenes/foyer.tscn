@@ -7,11 +7,18 @@
 
 [node name="Foyer" instance=ExtResource("1_fv1tu")]
 
+[node name="ColorRect" parent="." index="1"]
+visible = false
+
+[node name="DirectionalLight2D" parent="." index="2"]
+visible = false
+
 [node name="Player" parent="Player" index="0" instance=ExtResource("2_ogkta")]
 position = Vector2(528, 986)
 
-[node name="Foyer" parent="Ground" index="0" instance=ExtResource("2_qqwmq")]
+[node name="Foyer" parent="Ground" index="0" groups=["NavigationLayer"] instance=ExtResource("2_qqwmq")]
 position = Vector2(-35, -228)
 
-[node name="Monster" parent="Monster" index="0" instance=ExtResource("4_4qh5v")]
-position = Vector2(776, 879)
+[node name="Monster" parent="Monster" index="0" node_paths=PackedStringArray("player") instance=ExtResource("4_4qh5v")]
+position = Vector2(858, 868)
+player = NodePath("../../Player/Player")
