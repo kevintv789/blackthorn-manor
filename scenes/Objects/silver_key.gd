@@ -13,7 +13,7 @@ func _ready() -> void:
 	outline.visible = false
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(InputManager.ITEM_PICKUP):
+	if event.is_action_pressed(InputManager.ITEM_PICKUP) and outline.visible:
 		_on_picked_up(self)
 
 func _on_pickup_area_body_entered(_body: Node2D) -> void:
@@ -31,6 +31,6 @@ func _on_picked_up(item: Node2D) -> void:
 	picked_up.emit(item)
 	ItemManager.has_key = true
 	self.hide()
-	
+
 	await audio.finished
 	queue_free()

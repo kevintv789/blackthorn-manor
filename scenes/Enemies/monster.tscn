@@ -1,28 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://ds62ju61k7o2n"]
+[gd_scene load_steps=11 format=3 uid="uid://ds62ju61k7o2n"]
 
 [ext_resource type="Texture2D" uid="uid://cqd4mt6f4s0oc" path="res://assets/2D/sprites/monster/monster_idle.png" id="1_0ot2t"]
+[ext_resource type="Script" path="res://scenes/Enemies/monster.gd" id="1_pty12"]
 [ext_resource type="Texture2D" uid="uid://cvxqnuha7d2nq" path="res://assets/2D/sprites/monster/monster_walking.png" id="2_2rh5d"]
 [ext_resource type="Texture2D" uid="uid://bm3xohhex6ehr" path="res://assets/2D/sprites/monster/monster_atk.png" id="3_v0t6l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bugj5"]
 radius = 64.2806
-
-[sub_resource type="Animation" id="Animation_vckdp"]
-resource_name = "idle"
-length = 0.7
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
 
 [sub_resource type="Animation" id="Animation_6o7o5"]
 length = 0.001
@@ -63,14 +47,13 @@ tracks/2/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_b5krr"]
-resource_name = "walking"
+[sub_resource type="Animation" id="Animation_2allp"]
+resource_name = "attacking"
 length = 0.7
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../WalkingSprite:frame")
+tracks/0/path = NodePath("../AttackingSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -80,13 +63,31 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3]
 }
 
-[sub_resource type="Animation" id="Animation_2allp"]
-resource_name = "attacking"
+[sub_resource type="Animation" id="Animation_vckdp"]
+resource_name = "idle"
 length = 0.7
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../AttackingSprite:frame")
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_b5krr"]
+resource_name = "walking"
+length = 0.7
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../WalkingSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -107,10 +108,15 @@ _data = {
 [node name="Monster" type="CharacterBody2D"]
 scale = Vector2(0.7, 0.7)
 collision_layer = 2
-collision_mask = 5
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_pty12")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
+debug_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(5, 15)
 shape = SubResource("CircleShape2D_bugj5")
 
@@ -137,3 +143,9 @@ libraries = {
 "": SubResource("AnimationLibrary_kbase")
 }
 autoplay = "idle"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

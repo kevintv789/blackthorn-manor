@@ -25,6 +25,7 @@ func _input(event: InputEvent) -> void:
 		player_light.energy = 1.2 if visible else 0.5
 		player_light.texture_scale = 1.2 if visible else 0.3
 		play_sound(FLASHLIGHT_CLICK_ON_SOUND_PATH if visible else FLASHLIGHT_CLICK_OFF_SOUND_PATH)
+		InputManager.is_flashlight_on = visible
 
 func initialize_player_light() -> void:
 	player_light.energy = 0.5
