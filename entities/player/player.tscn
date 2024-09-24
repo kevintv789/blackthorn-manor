@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_rhx42"]
 [ext_resource type="Texture2D" uid="uid://babxuki8s2lrg" path="res://assets/2D/textures/light_texture.png" id="3_4nwyi"]
 [ext_resource type="Texture2D" uid="uid://dmetbuxjyp5ts" path="res://assets/2D/textures/cone_light.png" id="3_ea1mf"]
+[ext_resource type="Texture2D" uid="uid://ie7e764wgbeq" path="res://assets/2D/sprites/player/base_male.png" id="3_pwknm"]
 [ext_resource type="Script" path="res://entities/player/flashlight.gd" id="3_xydnj"]
-[ext_resource type="Texture2D" uid="uid://dub81hbj70gn3" path="res://assets/2D/sprites/player/base_male_64px.png" id="4_akllv"]
 [ext_resource type="Script" path="res://addons/smoothing/smoothing_2d.gd" id="5_wjcpn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_078a2"]
@@ -438,7 +438,7 @@ flags = 15
 
 [node name="PlayerSprite" type="Sprite2D" parent="SmoothNode"]
 texture_filter = 1
-texture = ExtResource("4_akllv")
+texture = ExtResource("3_pwknm")
 hframes = 5
 vframes = 5
 frame = 13
