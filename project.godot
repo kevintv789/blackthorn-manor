@@ -24,6 +24,7 @@ ItemManager="*res://globals/item_manager.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+mouse_cursor/custom_image="res://assets/cursor.png"
 
 [editor_plugins]
 
