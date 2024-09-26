@@ -2,6 +2,21 @@
 
 [ext_resource type="Texture2D" uid="uid://b1j7derh4nplh" path="res://assets/UI/Keyboard-and-Mouse.png" id="1_k3yax"]
 
+[sub_resource type="Animation" id="Animation_tkttt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EButtonPrompt:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
 [sub_resource type="Animation" id="Animation_etbl5"]
 resource_name = "prompt"
 loop_mode = 1
@@ -16,21 +31,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [4, 20]
-}
-
-[sub_resource type="Animation" id="Animation_tkttt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("EButtonPrompt:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [4]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fneia"]
