@@ -16,23 +16,30 @@ var base_sprite_path: String = "res://assets/2D/sprites/player/base_male.png"
 var flashlight_sprite_path: String = "res://assets/2D/sprites/player/male_flashlight.png"
 
 var prompt_button: Node2D
-
 var current_input_direction = Vector2.RIGHT
+var is_caught: bool = false
+var static_camera_node: Node2D
 
 func _ready() -> void:
 	InputManager.flashlight_toggle.connect(_on_flashlight_toggle)
 	initialize_item_pickup_prompt()
 	initialize_item_pickup_signals()
+	get_tree().connect("node_added", _on_node_added)
+
+func _on_node_added(node: Node) -> void:
+	if node.is_in_group("Monster") and node.has_signal("player_caught"):
+		node.player_caught.connect(_on_player_caught)
 
 func _physics_process(delta: float) -> void:
-	define_input_map()
-	light_follow_mouse(delta)
-	move_and_slide()
+	if not is_caught:
+		define_input_map()
+		light_follow_mouse(delta)
+		move_and_slide()
 	
-	# Move the button to the position of the player
-	if prompt_button:
-		prompt_button.global_position = global_position + Vector2(0, -50)
-		prompt_button.rotation = -rotation
+		# Move the button to the position of the player
+		if prompt_button:
+			prompt_button.global_position = global_position + Vector2(0, -50)
+			prompt_button.rotation = -rotation
 
 func initialize_item_pickup_prompt() -> void:
 	prompt_button = prompt_button_scene.instantiate()
@@ -93,3 +100,10 @@ func _on_flashlight_toggle(is_on: bool) -> void:
 		flashlight_sprite.offset = Vector2(480, 0)
 
 	player_sprite.texture = load(flashlight_sprite_path) if is_on else load(base_sprite_path)
+
+func _on_player_caught() -> void:
+	if not is_caught:
+		is_caught = true
+		animation_state.travel("Idle")
+		velocity = Vector2.ZERO
+		self.collision_mask &= ~4

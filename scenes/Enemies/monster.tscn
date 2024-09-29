@@ -6,14 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://bm3xohhex6ehr" path="res://assets/2D/sprites/monster/monster_atk.png" id="3_v0t6l"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_akxk2"]
-radius = 61.4286
-height = 122.857
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_bugj5"]
-radius = 102.145
+radius = 41.4286
+height = 91.4286
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wg3cf"]
 radius = 202.857
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bugj5"]
+radius = 65.7143
 
 [sub_resource type="Animation" id="Animation_6o7o5"]
 length = 0.001
@@ -112,7 +112,7 @@ _data = {
 "walking": SubResource("Animation_b5krr")
 }
 
-[node name="Monster" type="CharacterBody2D"]
+[node name="Monster" type="CharacterBody2D" groups=["Monster"]]
 scale = Vector2(0.7, 0.7)
 collision_layer = 2
 collision_mask = 5
@@ -129,19 +129,20 @@ debug_enabled = true
 scale = Vector2(1, 1)
 shape = SubResource("CapsuleShape2D_akxk2")
 
-[node name="AttackZone" type="Area2D" parent="."]
-scale = Vector2(1, 1)
-
-[node name="AttackArea" type="CollisionShape2D" parent="AttackZone"]
-position = Vector2(5, 15)
-scale = Vector2(1, 1)
-shape = SubResource("CircleShape2D_bugj5")
-
 [node name="NoticeZone" type="Area2D" parent="."]
 scale = Vector2(1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NoticeZone"]
 shape = SubResource("CircleShape2D_wg3cf")
+
+[node name="AttackZone" type="Area2D" parent="."]
+position = Vector2(318.571, 24.2857)
+scale = Vector2(1, 1)
+
+[node name="AttackArea" type="CollisionShape2D" parent="AttackZone"]
+position = Vector2(-315.714, -18.5714)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_bugj5")
 
 [node name="IdleSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_0ot2t")
@@ -171,7 +172,7 @@ autoplay = "idle"
 wait_time = 0.2
 autostart = true
 
+[connection signal="body_entered" from="NoticeZone" to="." method="_on_notice_zone_body_entered"]
 [connection signal="body_entered" from="AttackZone" to="." method="_on_attack_zone_body_entered"]
 [connection signal="body_exited" from="AttackZone" to="." method="_on_attack_zone_body_exited"]
-[connection signal="body_entered" from="NoticeZone" to="." method="_on_notice_zone_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

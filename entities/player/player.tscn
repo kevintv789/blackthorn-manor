@@ -427,11 +427,6 @@ position = Vector2(0, 3.63636)
 rotation = 3.14159
 shape = SubResource("CapsuleShape2D_078a2")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
-position_smoothing_enabled = true
-rotation_smoothing_enabled = true
-
 [node name="SmoothNode" type="Node2D" parent="."]
 script = ExtResource("5_wjcpn")
 flags = 15

@@ -32,7 +32,6 @@ const RUG_AUDIO_VOLUME_DB_ADJUSTMENT: float = -10
 
 func _ready() -> void:
 	initialize_audio_player()
-	
 
 func _physics_process(_delta: float) -> void:
 	if player.is_moving():

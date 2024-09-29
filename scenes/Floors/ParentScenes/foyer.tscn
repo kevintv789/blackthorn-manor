@@ -1,14 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://b5bvl58n27khu"]
+[gd_scene load_steps=6 format=3 uid="uid://b5bvl58n27khu"]
 
 [ext_resource type="PackedScene" uid="uid://2ycsgvdap2wv" path="res://globals/global_scene.tscn" id="1_fv1tu"]
 [ext_resource type="PackedScene" uid="uid://d1v02tyt4dj2i" path="res://entities/player/player.tscn" id="2_ogkta"]
 [ext_resource type="Script" path="res://scenes/Floors/ParentScenes/foyer.gd" id="2_q1q07"]
 [ext_resource type="PackedScene" uid="uid://bprx1dkhq8k4h" path="res://scenes/Floors/foyer.tscn" id="2_qqwmq"]
+[ext_resource type="PackedScene" uid="uid://wgii480erbcq" path="res://entities/player/follow_camera.tscn" id="5_68rw6"]
 
 [node name="Foyer" instance=ExtResource("1_fv1tu")]
 script = ExtResource("2_q1q07")
 
 [node name="ColorRect" parent="." index="1"]
+visible = false
+
+[node name="DirectionalLight2D" parent="." index="2"]
 visible = false
 
 [node name="Player" parent="." index="3"]
@@ -30,3 +34,6 @@ position = Vector2(1155, 818)
 
 [node name="Marker2D3" type="Marker2D" parent="MonsterSpawnPoints" index="2"]
 position = Vector2(240, 840)
+
+[node name="FollowCamera" parent="." index="9" node_paths=PackedStringArray("target") instance=ExtResource("5_68rw6")]
+target = NodePath("../Player/Player")

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED: float = 200
+var SPEED: float = 200
 
 var last_position: Vector2 = Vector2.ZERO
 var last_player_position: Vector2 = Vector2.ZERO
@@ -18,23 +18,36 @@ const STUCK_TIME_THRESHOLD: float = 1.5
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var notice_zone: Area2D = $NoticeZone
 
+signal player_caught()
+var is_dragging_player: bool = false
+var drag_target_position: Vector2 = Vector2(10000, 10000)
+
 func _ready() -> void:
 	initial_idle_state()
 
 func _physics_process(delta: float) -> void:
-	if not navigationAgent.is_navigation_finished() and ItemManager.has_key:
-		var direction = calc_direction(player.global_position)
-		set_velocity_with(delta, SPEED, 1.5, direction)
+	if is_dragging_player:
+		var direction = (drag_target_position - global_position).normalized()
+		set_velocity_with(delta, 10, 0.0001, direction)
+		player.global_position = global_position + direction * 20  # Offset player slightly behind monster
+		self.collision_mask &= ~4
+		
+	else:
+		if not navigationAgent.is_navigation_finished() and ItemManager.has_key:
+			var direction = calc_direction(player.global_position)
+			set_velocity_with(delta, SPEED, 1.5, direction)
 
-		move_and_slide()
 
-		if is_stuck(delta) and not is_colliding_with_player():
-			last_player_position = player.global_position
-			activate_ghost_mode()
-		elif has_moved_sufficiently():
-			last_player_position = Vector2.ZERO
-			deactivate_ghost_mode()
-			unstuck_time = 0.0
+			if is_stuck(delta) and not is_colliding_with_player():
+				last_player_position = player.global_position
+				activate_ghost_mode()
+			elif has_moved_sufficiently():
+				last_player_position = Vector2.ZERO
+				deactivate_ghost_mode()
+				unstuck_time = 0.0
+
+	move_and_slide()
+
 
 func has_moved_sufficiently() -> bool:
 	var time_has_passed = unstuck_time > STUCK_TIME_THRESHOLD
@@ -112,7 +125,9 @@ func calc_direction(target_position: Vector2) -> Vector2:
 
 func _on_attack_zone_body_entered(body: Node2D) -> void:
 	if body == player:
+		is_dragging_player = true
 		attacking_state()
+		player_caught.emit()
 		# GAME OVER HERE
 
 func _on_attack_zone_body_exited(_body: Node2D) -> void:
