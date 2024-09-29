@@ -2,15 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://2ycsgvdap2wv" path="res://globals/global_scene.tscn" id="1_fv1tu"]
 [ext_resource type="PackedScene" uid="uid://d1v02tyt4dj2i" path="res://entities/player/player.tscn" id="2_ogkta"]
+[ext_resource type="Script" path="res://scenes/Floors/ParentScenes/foyer.gd" id="2_q1q07"]
 [ext_resource type="PackedScene" uid="uid://bprx1dkhq8k4h" path="res://scenes/Floors/foyer.tscn" id="2_qqwmq"]
-[ext_resource type="PackedScene" uid="uid://ds62ju61k7o2n" path="res://scenes/Enemies/monster.tscn" id="4_4qh5v"]
 
 [node name="Foyer" instance=ExtResource("1_fv1tu")]
+script = ExtResource("2_q1q07")
 
 [node name="ColorRect" parent="." index="1"]
-visible = false
-
-[node name="DirectionalLight2D" parent="." index="2"]
 visible = false
 
 [node name="Player" parent="." index="3"]
@@ -22,6 +20,13 @@ position = Vector2(528, 986)
 [node name="Foyer" parent="Ground" index="0" groups=["NavigationLayer"] instance=ExtResource("2_qqwmq")]
 position = Vector2(-35, -228)
 
-[node name="Monster" parent="Monster" index="0" node_paths=PackedStringArray("player") instance=ExtResource("4_4qh5v")]
-position = Vector2(741, 801)
-player = NodePath("../../Player/Player")
+[node name="MonsterSpawnPoints" type="Node2D" parent="." index="8"]
+
+[node name="Marker2D" type="Marker2D" parent="MonsterSpawnPoints" index="0"]
+position = Vector2(1121, 92)
+
+[node name="Marker2D2" type="Marker2D" parent="MonsterSpawnPoints" index="1"]
+position = Vector2(1155, 818)
+
+[node name="Marker2D3" type="Marker2D" parent="MonsterSpawnPoints" index="2"]
+position = Vector2(240, 840)
